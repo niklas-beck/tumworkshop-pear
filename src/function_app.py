@@ -28,13 +28,26 @@ def http_trigger(req: func.HttpRequest) -> func.HttpResponse:
 
 # Add a new function here
 
-@app.route(route="http-trigger")
+@app.route(route="sum-trigger")
 def sum(req: func.HttpRequest) -> func.HttpResponse:
     logging.info('Python HTTP trigger function processed a sum request.')
 
     a = req.params.get('a')
     b = req.params.get('b')
+    
+    if a:
+        try:
+            a = int(a)
+        except ValueError:
+            return func.HttpResponse(f"Value error for a {a}")
 
+    if b:
+        try:
+            b = int(b)
+        except ValueError:
+            return func.HttpResponse(f"Value error for b {b}")
+
+    
     if a and b:
         return func.HttpResponse(f"The sum is {a + b}")
     else:
