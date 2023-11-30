@@ -28,4 +28,17 @@ def http_trigger(req: func.HttpRequest) -> func.HttpResponse:
 
 # Add a new function here
 
-# TODO
+@app.route(route="http-trigger")
+def http_trigger(req: func.HttpRequest) -> func.HttpResponse:
+    logging.info('Python HTTP trigger function processed a sum request.')
+
+    a = req.params.get('a')
+    b = req.params.get('b')
+
+    if a and b:
+        return func.HttpResponse(f"The sum is {a + b}")
+    else:
+        return func.HttpResponse(
+             "This HTTP triggered function executed successfully. But a or b are missing",
+             status_code=200
+        )
